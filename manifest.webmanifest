@@ -1,0 +1,16 @@
+{
+  "id": "./index.html",
+  "name": "Entre Páginas",
+  "short_name": "Entre Páginas",
+  "description": "Tu biblioteca personal y diario de lectura.",
+  "lang": "es-CO",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F5ECDF",
+  "theme_color": "#4A3428",
+  "icons": [
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
