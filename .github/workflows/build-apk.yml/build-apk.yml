@@ -1,0 +1,49 @@
+name: Crear APK de Entre Paginas
+
+on:
+  push:
+    paths:
+      - ".github/workflows/build-apk.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar proyecto
+        uses: actions/checkout@v4
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Preparar aplicación
+        run: |
+          npm init -y
+          npm install @capacitor/core@6 @capacitor/android@6 @capacitor/cli@6
+          mkdir www
+          cp index.html manifest.webmanifest sw.js icon.svg www/
+          echo '{"appId":"com.mayte.entrepaginas","appName":"Entre Páginas","webDir":"www"}' > capacitor.config.json
+          npx cap add android
+          npx cap sync android
+
+      - name: Compilar APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Guardar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Entre-Paginas-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          
